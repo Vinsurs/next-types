@@ -15,7 +15,10 @@ npm install next-types -D
 import { Props, RouteSegmentConfig } from 'next-types';
 
 // set route segment config
-export const dynamic: RouteSegmentConfig['dynamic'] = 'auto'
+export const { dynamic } = {
+    dynamic: 'auto',
+    runtime: 'nodejs'
+} satisfies RouteSegmentConfig
 
 export default function Page(props: Props) {
     // props.searchParams
@@ -48,6 +51,15 @@ export default function Page(props: Props<'id', true>) {
     // props.id
 }
 ```
+- middleware.ts:
+```ts
+// app/middleware.ts
+import { NextMiddleware } from 'next-types';
+
+export const middleware: NextMiddleware = function middleware(request, event) {
+    // ...
+}
+```
 - error.tsx:
 ```ts
 // app/posts/[id]/error.tsx
@@ -69,17 +81,19 @@ export const GET: RouteHandler = async (request, context) {
 - generate metadata for you metadata file:
 ```ts
 // app/post/(icon.ts|opengraph-image.ts|opengraph-image.ts)
-import { GenerateIconOrImage, GenerateImageMetadata, ImageMetadata } from 'next-types';
+import { GenerateIconOrImage, GenerateImageMetadata, ImageMetaConfig } from 'next-types';
 
 // either generate metadata for your icon or image with function
 export const generateImageMetadata: GenerateImageMetadata = () => {
     // return metadata for you metadata file
 }
 // or with metadata config
-export const size: ImageMetadata['size'] = {
-    width: 200,
-    height: 200
-}
+export const { size } = {
+    size: {
+        width: 200,
+        height: 200
+    }
+} satisfies ImageMetaConfig
 const icon: GenerateIconOrImage = () => {
     // return icon
 }

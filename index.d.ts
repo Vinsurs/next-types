@@ -2,7 +2,9 @@
 
 import { Metadata, MetadataRoute, ResolvingMetadata, Viewport } from 'next'
 import { NextRequest } from 'next/server'
-import { NextMiddlewareResult } from 'next/dist/server/web/types';
+import { NextMiddlewareResult } from 'next/dist/server/web/types'
+
+export { NextMiddleware } from 'next/server'
 
 /** Definition for nextjs dynamic route params
  * @param T - The dynamic route parameters
@@ -104,42 +106,44 @@ export declare interface RouteSegmentConfig {
      * @default 'auto'
      * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic}
      */
-    dynamic: keyof RouteSegmentConfigDynamic;
+    dynamic?: keyof RouteSegmentConfigDynamic;
     /** Control what happens when a dynamic segment is visited that was not generated with generateStaticParams.
      * - `true(default)`: Dynamic segments not included in generateStaticParams are generated on demand.
      * - `false`: Dynamic segments not included in generateStaticParams will return a 404.
      * @default true
      * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamicParams}
      */
-    dynamicParams: boolean;
+    dynamicParams?: boolean;
     /** Set the default revalidation time for a layout or page. This option does **not** override the `revalidate` value
      *  set by individual `fetch` requests.
      * @default false
      * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#revalidate}
      */
-    revalidate: false | 0 | number;
+    revalidate?: false | 0 | number;
     /** **This is an advanced option that should only be used if you specifically need to override the default behavior.** 
     * @description By default, Next.js **will cache** any `fetch()` requests that are reachable **before** any dynamic functions are used and **will not cache** fetch
     *  requests that are discovered **after** dynamic functions are used. fetchCache allows you to override the default cache option of all fetch requests in
     *  a layout or page.
      * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#fetchCache}
     */
-    fetchCache: keyof RouteSegmentConfigFetchCache;
+    fetchCache?: keyof RouteSegmentConfigFetchCache;
     /** 
      * @default 'nodejs'
      * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#runtime} */
-    runtime: keyof RouteSegmentConfigRuntime;
+    runtime?: keyof RouteSegmentConfigRuntime;
     /** Support for `preferredRegion`, and regions supported, is dependent on your deployment platform.
      * - If a `preferredRegion` is not specified, it will inherit the option of the nearest parent layout.
      * - The root layout defaults to `all` regions.
+     * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#preferredRegion}
      */
-    preferredRegion: 'auto' | 'global' | 'home' | string | string[];
+    preferredRegion?: 'auto' | 'global' | 'home' | string | string[];
     /** By default, Next.js does not limit the execution of server-side logic (rendering a page or handling an API). 
      * Deployment platforms can use `maxDuration` from the Next.js build output to add specific execution limits.
      * - If using `Server Actions`, set the `maxDuration` at the page level to change the default timeout of all Server Actions used on the page.
      * @note This settings requires Next.js `13.4.10` or higher.
+     * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#maxDuration}
      * */
-    maxDuration: number;
+    maxDuration?: number;
     /**
      * Partial Prerendering is an experimental feature that allows static portions of a route to be prerendered and
      *  served from the cache with dynamic holes streamed in, all in a single HTTP request.
@@ -154,7 +158,7 @@ export declare interface RouteSegmentConfig {
      * @default false
      * @see {@link https://nextjs.org/docs/app/api-reference/next-config-js/partial-prerendering}
      */
-    experimental_ppr: boolean;
+    experimental_ppr?: boolean;
 }
 
 /** Route segment config for 'dynamic'.
@@ -257,9 +261,25 @@ export interface GenerateImageOptions<T extends string, N extends boolean = fals
 /** image metadata for 'generateImageMetadata'
  * @see {@link https://nextjs.org/docs/app/api-reference/functions/generate-image-metadata#returns}
  */
-export interface ImageMetadata {
-    /** it will be passed to the props of the image generating function. */
+export interface ImageMetadata extends ImageMetaConfig {
+    /** it will be passed to the image generating function as a prop. 
+     * @see {@link https://nextjs.org/docs/app/api-reference/functions/generate-image-metadata#returns}
+    */
     id: string;
+}
+
+/** Definition for image metadata exported config.
+ * @example
+ * // opengraph-image.tsx | twitter-image.tsx
+ * import { ImageMetaConfig,  GenerateIconOrImage} from 'next-types'
+ * // image metadata
+ * export const { alt, size, contentType } = { alt, size, contentType } satisfies ImageMetaConfig
+ * // generate image
+ * const Image: GenerateIconOrImage = function () {}
+ * export default Image
+ * @see {@link https://nextjs.org/docs/app/api-reference/file-conventions/metadata/opengraph-image#config-exports}
+ */
+export interface ImageMetaConfig {
     alt?: string;
     size?: {
         width: number;

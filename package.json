@@ -1,6 +1,6 @@
 {
   "name": "next-types",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "common types definition for next.js 14+ to improve type safety and develop experience",
   "main": "index.js",
   "type": "module",
