@@ -1,0 +1,28 @@
+{
+  "name": "next-types",
+  "version": "1.0.0",
+  "description": "common types definition for next.js 14+ to improve type safety and develop experience",
+  "main": "index.js",
+  "type": "module",
+  "types": "./index.d.ts",
+  "keywords": ["next", "next-types", "vercel", "typescript"],
+  "author": {
+    "name": "vinsurs",
+    "email": "vinsurs2019@gmail.com",
+    "url": "https://github.com/vinsurs"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18.2.0",
+    "@types/react": ">=18",
+    "next": ">=14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vinsurs/next-types.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vinsurs/next-types/issues"
+  },
+  "homepage": "https://github.com/vinsurs/next-types"
+}
